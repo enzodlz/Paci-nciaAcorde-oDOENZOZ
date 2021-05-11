@@ -90,7 +90,7 @@ class bcolors:
 
 def colore_baralho (carta):
     if extrai_naipe(carta) == '♣':
-        return bcolors.OKCYAN + "{0}".format(carta) + bcolors.RESET
+        return bcolors.WARNING + "{0}".format(carta) + bcolors.RESET
     if extrai_naipe(carta) == '♥':
         return bcolors.FAIL + "{0}".format(carta) + bcolors.RESET
     if extrai_naipe(carta) == '♠':
