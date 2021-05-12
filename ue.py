@@ -27,23 +27,37 @@ def extrai_valor (carta):
         return divide_str [0] [0]
 
 
-def lista_movimentos_possiveis (baralho, posicao):
-    lugar = []
-    if posicao == 0:
-        return []
-    for cartas in range(len(baralho)):
-        if extrai_naipe(baralho[cartas]) == extrai_naipe (baralho [posicao]) and cartas == posicao - 1:
-            lugar.append (1)
-        if extrai_naipe(baralho[cartas]) == extrai_naipe (baralho [posicao]) and cartas == posicao - 3:
-            lugar.append (3)
-        if extrai_valor(baralho[cartas]) == extrai_valor (baralho [posicao]) and cartas == posicao - 1:
-            lugar.append (1)                
-        if extrai_valor(baralho[cartas]) == extrai_valor (baralho [posicao]) and cartas == posicao - 3:
-            lugar.append (3)
-    if lugar == []:
-        return []
+def lista_movimentos_possiveis(baralho, posicao):
+    
+    cartas = baralho [posicao]
+    naipe = extrai_naipe(cartas)
+    valor = extrai_valor(cartas)
+    
+    movimentos = []
+    if posicao >= 3:
 
-    return sorted(lugar)
+        carta_1 = baralho[posicao - 1]
+        naipe_1 = extrai_naipe(carta_1)
+        valor_1 = extrai_valor(carta_1)
+
+        if naipe == naipe_1 or valor == valor_1:
+            movimentos.append(1)
+        carta_2 = baralho[posicao - 3]
+        naipe_2 = extrai_naipe(carta_2)
+        valor_2 = extrai_valor(carta_2)
+
+        if naipe == naipe_2 or valor == valor_2:
+            movimentos.append(3)
+            
+    elif posicao >= 1:
+
+        carta_3 = baralho[posicao - 1]
+        naipe_3 = extrai_naipe(carta_3)
+        valor_3 = extrai_valor(carta_3)
+        
+        if naipe == naipe_3 or valor == valor_3:
+            movimentos.append(1)
+    return sorted (movimentos)
 
 
 def empilha (baralho, p_origem, p_destino):
@@ -64,17 +78,15 @@ def empilha (baralho, p_origem, p_destino):
 
 
 def possui_movimentos_possiveis (baralho):
-    movimentos_possiveis = 0
-    for i in range (len(baralho)):
-        if i - 1 >= 0 and i - 3 >= 0:
-            if extrai_naipe (baralho[i]) == extrai_naipe (baralho[i-1]) or extrai_naipe (baralho[i]) == extrai_naipe (baralho[i - 3]):
-                movimentos_possiveis += 1
-            if extrai_valor (baralho[i]) == extrai_valor (baralho[i-1]) or extrai_valor (baralho[i]) == extrai_valor (baralho[i - 3]):
-                movimentos_possiveis += 1
-    if movimentos_possiveis > 0:
-        return True
-    else:
-        return False
+    
+    for i in range(len(baralho)):
+
+        movimentos = lista_movimentos_possiveis(baralho, i)
+
+        if movimentos != []:
+            return True
+            
+    return False
 
 
 class bcolors:
